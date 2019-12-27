@@ -1,5 +1,5 @@
 <?php
-namespace kilyakus\widget\dropdown\DropDown;
+namespace kilyakus\widget\dropdown;
 
 use Yii;
 use yii\base\InvalidConfigException;
