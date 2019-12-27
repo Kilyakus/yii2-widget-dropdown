@@ -38,6 +38,8 @@ use kilyakus\button\Button;
  */
 class DropDown extends \yii\bootstrap\Dropdown
 {
+    public $pluginName = 'dropdown';
+
     public $encodeLabels = false;
 
     public $title;
@@ -81,6 +83,9 @@ class DropDown extends \yii\bootstrap\Dropdown
     public function run()
     {
         echo $this->renderItems($this->items);
+
+        $this->registerPlugin('dropdown');
+        $this->registerAssets();
     }
 
     protected function renderItems($items, $options = [])
@@ -173,4 +178,19 @@ class DropDown extends \yii\bootstrap\Dropdown
         }
     }
 
+    public function registerAssetBundle()
+    {
+        $view = $this->getView();
+        DropDownAsset::register($view);
+        if (in_array($this->type, self::$_inbuiltTypes)) {
+            $bundleClass = __NAMESPACE__ . '\Theme' . Inflector::id2camel($this->type) . 'Asset';
+            $bundleClass::register($view);
+        }
+    }
+
+    public function registerAssets()
+    {
+        $this->registerAssetBundle();
+        $this->registerPlugin($this->pluginName);
+    }
 }
