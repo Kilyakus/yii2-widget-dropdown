@@ -36,7 +36,7 @@ use kilyakus\button\Button;
     ]);
     
  */
-class Dropdown extends \yii\bootstrap\Dropdown
+class DropDown extends \yii\bootstrap\Dropdown
 {
     public $encodeLabels = false;
 
