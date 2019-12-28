@@ -1,5 +1,5 @@
 <?php
-namespace kilyakus\button;
+namespace kilyakus\widget\dropdown;
 
 class DropDownAsset extends \kilyakus\widgets\AssetBundle
 {

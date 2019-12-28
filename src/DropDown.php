@@ -4,6 +4,7 @@ namespace kilyakus\widget\dropdown;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\Html;
+use yii\helpers\Inflector;
 use yii\helpers\ArrayHelper;
 use kilyakus\button\Button;
 
@@ -39,6 +40,12 @@ use kilyakus\button\Button;
 class DropDown extends \yii\bootstrap\Dropdown
 {
     public $pluginName = 'dropdown';
+
+    const THEME_DEFAULT = 'default';
+    const THEME_DARK = 'dark';
+    const THEME_LIGHT = 'light';
+
+    public $theme = self::THEME_DEFAULT;
 
     public $encodeLabels = false;
 
@@ -80,18 +87,30 @@ class DropDown extends \yii\bootstrap\Dropdown
      */
     public $scroller = [];
 
+    public $placement = 'dropdown';
+
+    protected $container = [];
+
+    protected static $_inbuiltThemes = [
+        self::THEME_DEFAULT,
+        self::THEME_DARK,
+        self::THEME_LIGHT,
+    ];
+
     public function run()
     {
         echo $this->renderItems($this->items);
 
-        $this->registerPlugin('dropdown');
         $this->registerAssets();
     }
 
     protected function renderItems($items, $options = [])
     {
         if(isset($this->button)){
-            echo Html::beginTag('div',['class' => 'dropdown']);
+
+            Html::addCssClass($this->container, $this->placement);
+
+            echo Html::beginTag('div',$this->container);
             $this->button['options'] = ArrayHelper::merge($this->button['options'],['id' => $this->id, 'data-toggle' => 'dropdown']);
             echo Button::widget($this->button);
         }
@@ -182,10 +201,10 @@ class DropDown extends \yii\bootstrap\Dropdown
     {
         $view = $this->getView();
         DropDownAsset::register($view);
-        if (in_array($this->type, self::$_inbuiltTypes)) {
-            $bundleClass = __NAMESPACE__ . '\Theme' . Inflector::id2camel($this->type) . 'Asset';
-            $bundleClass::register($view);
-        }
+        // if (in_array($this->theme, self::$_inbuiltThemes)) {
+        //     $bundleClass = __NAMESPACE__ . '\Theme' . Inflector::id2camel($this->theme) . 'Asset';
+        //     $bundleClass::register($view);
+        // }
     }
 
     public function registerAssets()
